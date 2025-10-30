@@ -1,0 +1,5 @@
+1. Termination clauses must specify notice periods and breach conditions.
+2. Confidentiality must survive termination for at least 2 years.
+3. Non-compete clauses cannot exceed 12 months duration.
+4. Payment terms must be clearly stated including due dates and penalties.
+5. Force majeure clauses must include pandemics and natural disasters.

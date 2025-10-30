@@ -1,0 +1,10 @@
+langchain
+langchain-community
+langchain_google_genai
+fastapi
+uvicorn
+pydantic
+dotenv
+pinecone
+pypdf
+PyMuPDF
