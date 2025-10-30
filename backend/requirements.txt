@@ -8,3 +8,4 @@ dotenv
 pinecone
 pypdf
 PyMuPDF
+python-multipart
