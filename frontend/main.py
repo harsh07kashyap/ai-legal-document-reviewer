@@ -98,11 +98,24 @@ else:
 if "document_id" in st.session_state:
     st.header("Step 2: Ask Legal Questions")
 
-    query = st.text_input("Enter your question", placeholder="e.g., Does this contract have a termination clause?")
+    query = st.text_input(
+        "Enter your question",
+        placeholder="e.g., Does this contract have a termination clause?",
+        key="user_query"
+    )
 
+    compare_triggered = st.session_state.get("compare_triggered", False)
+
+    # Button (still visible for manual use)
     compare_btn = st.button("Compare with Legal Standards")
 
-    if compare_btn and query.strip():
+    # Auto-trigger when query is entered (Enter key)
+    if query and not compare_triggered and not compare_btn:
+        st.session_state["compare_triggered"] = True
+        st.rerun()  # re-run the script to trigger the comparison below
+
+    # Run comparison if either button clicked or enter pressed
+    if compare_btn or compare_triggered:
         with st.spinner("Comparing document with legal corpus..."):
             res = requests.post(f"{BACKEND_URL}/compare", data={
                 "document_id": st.session_state["document_id"],
@@ -113,9 +126,11 @@ if "document_id" in st.session_state:
                 data = res.json()
                 response_text = data.get("comparison_result", "")
 
+                # If response is a dict (Claude-style), extract content
                 if isinstance(response_text, dict) and "content" in response_text:
                     response_text = response_text["content"]
 
+                import re
                 response_text = response_text.strip()
                 response_text = re.sub(r"•\s*\*\*", "• **", response_text)
                 response_text = re.sub(r":•", ":", response_text)
@@ -132,5 +147,8 @@ if "document_id" in st.session_state:
 
                 st.markdown("### ⚖️ AI Legal Review Result")
                 st.markdown(response_text, unsafe_allow_html=True)
+
+                # Reset trigger so Enter works again for next query
+                st.session_state["compare_triggered"] = False
             else:
                 st.error("Error comparing with legal norms.")
