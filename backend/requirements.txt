@@ -9,3 +9,4 @@ pinecone
 pypdf
 PyMuPDF
 python-multipart
+langchain-text-splitters

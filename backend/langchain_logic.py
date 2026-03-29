@@ -7,8 +7,7 @@ load_dotenv(override=True)
 import os
 import re
 import fitz
-
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 pc=Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
 index_name="ai-legal-document-reviewer"
