@@ -90,23 +90,32 @@ def retrieve_and_compare(document_id: str, query: str, top_k: int = 3):
 
     # Combine for comparison
     comparison_prompt = f"""
-    You are a legal compliance AI.
-    Compare the following:
+    You are an expert legal AI assistant.
 
-    Contract sections:
+    Analyze the contract and legal standards based on the user query.
+
+    ### Contract Sections:
     {doc_hits}
 
-    Legal standards:
+    ### Legal Standards:
     {legal_hits}
 
-    Query: "{query}"
+    ### User Query:
+    {query}
 
-    Output a summary showing:
-    - Whether the contract aligns with legal standards
-    - Missing or risky clauses
-    - Recommendations for improvement
-    
-    Please provide a well-formatted response with no ** marks.
+    ### INSTRUCTIONS:
+    - Understand the intent of the query first
+    - Answer ONLY what is asked
+    - Keep the answer concise and well-structured
+    - Avoid long paragraphs
+
+    ### OUTPUT RULES:
+    - Use bullet points wherever possible
+    - Use headings if needed
+    - Keep response under 150–200 words
+    - If listing items, limit to top 5 most relevant points
+
+    ### RESPONSE:
     """
 
     response = llm.invoke(comparison_prompt)
